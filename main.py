@@ -443,7 +443,9 @@ def drloffrecord():
 @app.route('/drloff/rank', methods=['POST', 'GET'])
 def drloffRank():
     return getRank("DrLoffTV", "DrLoffTV","eu")
-    
+@app.route('/wasabii/record', methods=['POST', 'GET'])
+def wasabiirecord():
+    return getRecord("WasabiiTV","4251", "Wasabii")
     
 
 
