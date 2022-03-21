@@ -437,6 +437,14 @@ def drloffRR():
 
     values = ','.join(str(v) for v in y)
     return "RR change today: " + values + " = "+str(rr)
+@app.route('/drloff/record', methods=['POST', 'GET'])
+def drloffrecord():
+    return getRecord("DrLoffTV","9000", "DrloffTV")
+@app.route('/drloff/rank', methods=['POST', 'GET'])
+def drloffRank():
+    return getRank("DrLoffTV", "DrLoffTV","eu")
+    
+    
 
 
 if __name__ == "__main__":
