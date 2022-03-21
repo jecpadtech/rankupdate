@@ -413,15 +413,15 @@ def marcusRank():
 @app.route('/marcus/record', methods=['POST', 'GET'])
 def marcusrecord():
     return getRecord("Guild SoMarcus","313", "Marcus")
-@app.route('/leon/rr', methods=['POST', 'GET'])
-def leonRR():
+@app.route('/drloff/rr', methods=['POST', 'GET'])
+def drloffRR():
     y=[]
     a=[]
     loss = 0
     draw = 0
     today = datetime.today()
     currentDate = today.strftime("%B %d, %Y")
-    response= scraper.get("https://api.henrikdev.xyz/valorant/v1/mmr-history/eu/LJPH/018")
+    response= scraper.get("https://api.henrikdev.xyz/valorant/v1/mmr-history/eu/DrLoffTV/9000")
     json_data = response.json()
     for x in json_data["data"]:
         splitString = x["date"].split()
@@ -435,5 +435,6 @@ def leonRR():
 
     values = ','.join(str(v) for v in y)
     return "RR change today: " + values + " = "+str(rr)
+
 if __name__ == "__main__":
     app.run(debug=False)
