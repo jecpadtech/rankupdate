@@ -3,6 +3,8 @@ import requests
 from datetime import datetime
 app = Flask(__name__)
 import cloudscraper
+import random, string
+
 scraper = cloudscraper.create_scraper()
 
 
@@ -436,5 +438,6 @@ def drloffRR():
     values = ','.join(str(v) for v in y)
     return "RR change today: " + values + " = "+str(rr)
 
+
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(host='0.0.0.0', port=random.randint(2000, 9000),debug=False)
