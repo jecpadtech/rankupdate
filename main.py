@@ -240,9 +240,9 @@ def stoutRec():
         if currentDate == newDate:
             y.append(x["mmr_change_to_last_game"])
     for n in y:
-        if n>10:
+        if n>=5:
             a.append("W")
-        elif 0<=n<10:
+        elif 0<=n<5:
             a.append("T")
         elif n == -3:
             pass
@@ -316,12 +316,12 @@ def baconRank():
     json_data = response.json()
     x = json_data["data"]
     return "PB is currently " + x["currenttierpatched"] + " with a ranked rating of " +str(x["ranking_in_tier"])
-@app.route('/sukh', methods=['POST', 'GET'])
-def sukhRank():
-    response= scraper.get("https://api.henrikdev.xyz/valorant/v1/mmr/na/SukhdeepFPS/TTV")
-    json_data = response.json()
-    x = json_data["data"]
-    return "Sukh is currently " + x["currenttierpatched"] + " with a ranked rating of " +str(x["ranking_in_tier"])
+# @app.route('/sukh', methods=['POST', 'GET'])
+# def sukhRank():
+#     response= scraper.get("https://api.henrikdev.xyz/valorant/v1/mmr/na/SukhdeepFPS/TTV")
+#     json_data = response.json()
+#     x = json_data["data"]
+#     return "Sukh is currently " + x["currenttierpatched"] + " with a ranked rating of " +str(x["ranking_in_tier"])
 @app.route('/josh/rr', methods=['POST', 'GET'])
 def joshRR():
     y=[]
@@ -446,7 +446,50 @@ def drloffRank():
 @app.route('/wasabii/record', methods=['POST', 'GET'])
 def wasabiirecord():
     return getRecord("WasabiiTV","4251", "Wasabii")
-    
+@app.route('/sukh/rank', methods=['POST', 'GET'])
+def sukhRank():
+    try:
+        return getRankv1("deepFPS","DeepFPS","na")
+    except:
+        return getRank("deepFPS", "Deep","na")
+@app.route('/sukh/record', methods=['POST', 'GET'])
+def sukhRec():    
+    y=[]
+    a=[]
+    wins = 0
+    loss = 0
+    draw = 0
+    resultString = ""
+    today = datetime.today()
+    currentDate = today.strftime("%B %d, %Y")
+    response= scraper.get("https://api.henrikdev.xyz/valorant/v1/mmr-history/na/deepFPS/TTV")
+    json_data = response.json()
+    for x in json_data["data"]:
+        splitString = x["date"].split()
+        if int(splitString[2].translate({ord(','): None})) <10:
+            newDate = "" +splitString[1] + " 0"+ splitString[2] + " "+ splitString[3]
+        else:
+            newDate = "" +splitString[1] + " "+ splitString[2] + " "+ splitString[3]
+        if currentDate == newDate:
+            y.append(x["mmr_change_to_last_game"])
+    for n in y:
+        if n>10:
+            a.append("W")
+        elif 0<=n<10:
+            a.append("T")
+        elif n == -3:
+            pass
+        else:
+            a.append("L")
+    for l in a:
+        if l == "W":
+            wins+=1
+        elif l == "L":
+            loss +=1
+        else:
+            draw +=1
+        
+    return "deepFPS has won " + str(wins) + " games and lost " + str(loss) + " games today. " + "Record- " + str(a)
 
 
 if __name__ == "__main__":
